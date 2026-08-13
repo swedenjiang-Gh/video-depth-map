@@ -25,12 +25,28 @@ The practical choices are:
 
 | Choice | Use | Cost/limitation |
 |---|---|---|
-| Official Video-Depth-Anything CLI | Best first local route for stable depth video | Separate Python environment and checkpoint; no ComfyUI graph by itself |
+| Official Video-Depth-Anything CLI | Best first local route for stable depth video | Separate Python environment and checkpoint; no ComfyUI graph by itself; official requirements pin an older Torch/CUDA-era stack, so isolate it |
 | ComfyUI-Video-Depth-Anything | Best if the result must feed a visible ComfyUI workflow | Custom node plus dependencies/models; current repository was tested by its author on a newer RTX/CUDA stack, so run a small smoke before production |
 | Depth Anything V2/TensorRT | Fast still/frame preview or existing ComfyUI image workflow | Temporal stability is weaker unless an additional stabilizer is used; not equivalent to VDA |
 | Web depth-map service | Quick experiment without local installation | Upload/privacy, quota, unknown model/parameters, and no local reproducibility |
 
 For this RTX 4090, start with Video-Depth-Anything Small or Base in an isolated D-drive environment. Do not install into the video-learning venv or ComfyUI's shared Python until compatibility is checked. Small is the conservative first smoke; Base is the quality comparison; Large is not the first choice because its published FP16 memory figure is close to a 24 GB card's practical ceiling once video buffers and other applications are included.
+
+## Capacity budget before installation
+
+The checkpoint is only part of the installation. Use this planning budget; measure the actual directory after installation because Python wheels and CUDA variants differ.
+
+| Component | Small first smoke | Base comparison | Notes |
+|---|---:|---:|---|
+| Video-Depth-Anything checkpoint | ~116 MB | ~458 MB | Current official Hugging Face files; Large size must be checked before download |
+| Isolated Python environment and CUDA PyTorch wheels | ~3–6 GB | ~3–6 GB | Includes Python packages, PyTorch, torchvision, xformers, OpenCV, decord/imageio, and caches; do not share the video-learning venv |
+| Source repository and package caches | ~0.2–1 GB | ~0.2–1 GB | Git checkout is small; pip/Hugging Face caches can be larger |
+| One depth-video output | source-dependent | source-dependent | A grayscale H.264 preview is usually similar to or smaller than the source; raw PNG/EXR/NPZ frames can be many times larger |
+| Safe working allowance | 8 GB | 10 GB | Includes temporary frames, failed downloads, and one test output; reserve more for long/high-resolution videos |
+
+The official CLI requirements pin `torch==2.1.1`, `torchvision==0.16.1`, `xformers==0.0.23`, and older supporting packages. On this workstation, do not force those pins into an existing environment: Python/CUDA/Torch compatibility must be checked in a new D-drive venv first. The ComfyUI wrapper has a shorter requirements file, but its node code still relies on the ComfyUI Torch runtime and downloads its model under `ComfyUI/models/videodepthanything`; its total incremental footprint is therefore typically the node source plus Python dependencies and one or more checkpoints, not just the checkpoint size.
+
+No model, environment, node, or cache has been installed by this Skill yet. The current local state remains `partial` until the user authorizes a route and an actual depth video is rendered.
 
 The existing video-learning `faster_whisper` package and D-drive Tesseract are transcription/OCR dependencies only. They are not depth-map dependencies and do not need to be installed for this Skill.
 
