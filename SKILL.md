@@ -15,6 +15,23 @@ Always enter through `$media-studio-orchestrator`, then route here for the depth
 
 Current status on this workstation is `partial`: FFmpeg/FFprobe and the video-learning Python environment are available, but no verified depth-estimation model or depth custom node is installed. `D:\Comfy-Desktop\ComfyUI-Shared\models\geometry_estimation` is empty; do not claim local depth generation until a model/node is installed and an output is rendered.
 
+## Research-backed options
+
+The recommended model family for this task is [Video-Depth-Anything](https://github.com/DepthAnything/Video-Depth-Anything), an Apache-2.0 codebase designed for consistent depth on very long videos. Its official README lists relative-depth checkpoints of approximately 28.4M, 113.1M, and 381.8M parameters (Small/Base/Large), with FP16 GPU measurements on A100 of about 6.8 GB, 14 GB, and 23.6 GB respectively. Current model files are approximately 116 MB for Small and 458 MB for Base; verify the Large file size from its current download response before installation. The Small checkpoint is Apache-2.0; the Base and Large checkpoints are listed as CC-BY-NC-4.0, so check the license before commercial use.
+
+For ComfyUI, [ComfyUI-Video-Depth-Anything](https://github.com/yuvraj108c/ComfyUI-Video-Depth-Anything) provides an unofficial node and example workflow; it downloads models under `ComfyUI/models/videodepthanything` and supports Small/Base/Large plus metric variants. [ComfyUI-Depth-Anything-Tensorrt](https://github.com/yuvraj108c/ComfyUI-Depth-Anything-Tensorrt) provides TensorRT image depth nodes and a temporal stabilizer, but its README describes a separate engine-export/model setup and does not by itself prove the long-video Video-Depth-Anything route. [ComfyUI-DepthAnythingV2](https://github.com/kijai/ComfyUI-DepthAnythingV2) is a popular single-image/frame node; use it for quick previews, not as the production temporal route.
+
+The practical choices are:
+
+| Choice | Use | Cost/limitation |
+|---|---|---|
+| Official Video-Depth-Anything CLI | Best first local route for stable depth video | Separate Python environment and checkpoint; no ComfyUI graph by itself |
+| ComfyUI-Video-Depth-Anything | Best if the result must feed a visible ComfyUI workflow | Custom node plus dependencies/models; current repository was tested by its author on a newer RTX/CUDA stack, so run a small smoke before production |
+| Depth Anything V2/TensorRT | Fast still/frame preview or existing ComfyUI image workflow | Temporal stability is weaker unless an additional stabilizer is used; not equivalent to VDA |
+| Web depth-map service | Quick experiment without local installation | Upload/privacy, quota, unknown model/parameters, and no local reproducibility |
+
+For this RTX 4090, start with Video-Depth-Anything Small or Base in an isolated D-drive environment. Do not install into the video-learning venv or ComfyUI's shared Python until compatibility is checked. Small is the conservative first smoke; Base is the quality comparison; Large is not the first choice because its published FP16 memory figure is close to a 24 GB card's practical ceiling once video buffers and other applications are included.
+
 The existing video-learning `faster_whisper` package and D-drive Tesseract are transcription/OCR dependencies only. They are not depth-map dependencies and do not need to be installed for this Skill.
 
 ## Choose an execution path
