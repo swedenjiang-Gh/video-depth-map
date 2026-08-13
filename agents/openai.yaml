@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Depth Map"
+  short_description: "Generate depth-map videos for structure control"
+  default_prompt: "Use $video-depth-map for a video depth-map task."
