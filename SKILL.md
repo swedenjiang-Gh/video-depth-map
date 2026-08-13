@@ -46,7 +46,7 @@ The checkpoint is only part of the installation. Use this planning budget; measu
 
 The official CLI requirements pin `torch==2.1.1`, `torchvision==0.16.1`, `xformers==0.0.23`, and older supporting packages. On this workstation, do not force those pins into an existing environment: Python/CUDA/Torch compatibility must be checked in a new D-drive venv first. The ComfyUI wrapper has a shorter requirements file, but its node code still relies on the ComfyUI Torch runtime and downloads its model under `ComfyUI/models/videodepthanything`; its total incremental footprint is therefore typically the node source plus Python dependencies and one or more checkpoints, not just the checkpoint size.
 
-The ComfyUI node and Base/Small checkpoints are installed. Small has a narrow real-video smoke pass; Base remains available for shorter or segmented jobs. The current local state remains `partial` until an authorized output is reviewed and the full-video segmentation route is established.
+The ComfyUI node and Base/Small checkpoints are installed. Small has a narrow real-video smoke pass; optimized Base now has a narrow 5.13-second real-video smoke pass at 540×960 (about 22 seconds on the RTX 4090). Base remains intended for shorter or segmented jobs. The current local state remains `partial` until an authorized output is reviewed and the full-video segmentation route is established.
 
 The existing video-learning `faster_whisper` package and D-drive Tesseract are transcription/OCR dependencies only. They are not depth-map dependencies and do not need to be installed for this Skill.
 
@@ -66,7 +66,7 @@ Do not silently download a large model. Before installation, report the model, a
 1. Probe source streams with FFprobe. Record width, height, FPS, duration, codec, rotation, and audio presence.
 2. Split at hard scene cuts when detected; depth normalization may reset per shot. Keep source timecodes.
 3. Run the depth estimator frame by frame or in bounded batches. Preserve frame count, FPS, duration, aspect ratio, and audio separately. Never overwrite the source.
-4. Write a grayscale preview and an encoded depth video. Record model, version/hash, input/output resolution, normalization, near/far polarity, FPS, codec, and elapsed time.
+4. Write the grayscale depth video by default and record model, version/hash, input/output resolution, normalization, near/far polarity, FPS, codec, and elapsed time. An `inferno` color preview is optional and must be explicitly enabled; it is a post-processing view of the same depth result and must not trigger a second model inference.
 5. Review entry/peak/exit frames and a short playable output. Check subject silhouette, hands/feet, hair, thin garments, occlusion order, background separation, temporal flicker, and shot-boundary resets.
 6. Mark the result `pass` only when the requested structural properties are visibly retained; otherwise use `partial` or `blocked` with the exact defect.
 
