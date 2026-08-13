@@ -13,7 +13,7 @@ Generate or prepare a time-aligned grayscale depth video from an authorized sour
 
 Always enter through `$media-studio-orchestrator`, then route here for the depth stage. This Skill does not start ComfyUI for analysis-only work. For generation, reuse `127.0.0.1:8188` or use the user's visible Desktop according to the global ComfyUI rules.
 
-Current status on this workstation is `partial`: FFmpeg/FFprobe and the video-learning Python environment are available, but no verified depth-estimation model or depth custom node is installed. `D:\Comfy-Desktop\ComfyUI-Shared\models\geometry_estimation` is empty; do not claim local depth generation until a model/node is installed and an output is rendered.
+Current status on this workstation is `partial`: the `ComfyUI-Video-Depth-Anything` node is installed, its nodes appear in live `http://127.0.0.1:8188/object_info`, and the Base and Small checkpoints are present. A real 5.13-second source rendered successfully with Small; Base full-video rendering was stopped after exceeding a reasonable runtime without output. Do not claim full-video Base quality or production readiness.
 
 ## Research-backed options
 
@@ -46,7 +46,7 @@ The checkpoint is only part of the installation. Use this planning budget; measu
 
 The official CLI requirements pin `torch==2.1.1`, `torchvision==0.16.1`, `xformers==0.0.23`, and older supporting packages. On this workstation, do not force those pins into an existing environment: Python/CUDA/Torch compatibility must be checked in a new D-drive venv first. The ComfyUI wrapper has a shorter requirements file, but its node code still relies on the ComfyUI Torch runtime and downloads its model under `ComfyUI/models/videodepthanything`; its total incremental footprint is therefore typically the node source plus Python dependencies and one or more checkpoints, not just the checkpoint size.
 
-No model, environment, node, or cache has been installed by this Skill yet. The current local state remains `partial` until the user authorizes a route and an actual depth video is rendered.
+The ComfyUI node and Base/Small checkpoints are installed. Small has a narrow real-video smoke pass; Base remains available for shorter or segmented jobs. The current local state remains `partial` until an authorized output is reviewed and the full-video segmentation route is established.
 
 The existing video-learning `faster_whisper` package and D-drive Tesseract are transcription/OCR dependencies only. They are not depth-map dependencies and do not need to be installed for this Skill.
 
