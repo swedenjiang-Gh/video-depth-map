@@ -13,7 +13,7 @@ Generate or prepare a time-aligned grayscale depth video from an authorized sour
 
 Always enter through `$media-studio-orchestrator`, then route here for the depth stage. This Skill does not start ComfyUI for analysis-only work. For generation, reuse `127.0.0.1:8188` or use the user's visible Desktop according to the global ComfyUI rules.
 
-Current status on this workstation is `partial`: the `ComfyUI-Video-Depth-Anything` node is installed, its nodes appear in live `http://127.0.0.1:8188/object_info`, and the Base and Small checkpoints are present. A real 5.13-second source rendered successfully with Small; Base full-video rendering was stopped after exceeding a reasonable runtime without output. Do not claim full-video Base quality or production readiness.
+Current status on this workstation is `partial`: the `ComfyUI-Video-Depth-Anything` node is installed, its nodes appear in live `http://127.0.0.1:8188/object_info`, and the Base and Small checkpoints are present. Both models rendered a complete authorized 15.567-second / 467-frame source successfully at 540×960 as grayscale and inferno preview. Do not claim long-video Base quality or production readiness until the segmented route is accepted.
 
 ## Research-backed options
 
@@ -46,7 +46,7 @@ The checkpoint is only part of the installation. Use this planning budget; measu
 
 The official CLI requirements pin `torch==2.1.1`, `torchvision==0.16.1`, `xformers==0.0.23`, and older supporting packages. On this workstation, do not force those pins into an existing environment: Python/CUDA/Torch compatibility must be checked in a new D-drive venv first. The ComfyUI wrapper has a shorter requirements file, but its node code still relies on the ComfyUI Torch runtime and downloads its model under `ComfyUI/models/videodepthanything`; its total incremental footprint is therefore typically the node source plus Python dependencies and one or more checkpoints, not just the checkpoint size.
 
-The ComfyUI node and Base/Small checkpoints are installed. Small has a narrow real-video smoke pass; optimized Base now has a narrow 5.13-second real-video smoke pass at 540×960 (about 22 seconds on the RTX 4090). Base remains intended for shorter or segmented jobs. The current local state remains `partial` until an authorized output is reviewed and the full-video segmentation route is established.
+The ComfyUI node and Base/Small checkpoints are installed. On the RTX 4090, both ran a complete 15.567-second 540×960 source at the same `input_size=518` / `max_res=960` / FP16 configuration: Small about 66.9 seconds, Base about 55.8 seconds. Base remains intended for shorter or segmented jobs. The current local state remains `partial` until visual output review and the full-video segmentation route are established. Inferno preview uses OpenCV `COLORMAP_INFERNO`, avoiding the removed Matplotlib `get_cmap()` API.
 
 The existing video-learning `faster_whisper` package and D-drive Tesseract are transcription/OCR dependencies only. They are not depth-map dependencies and do not need to be installed for this Skill.
 
