@@ -80,7 +80,7 @@ The usual interpretation is bright-near/dark-far, but some tools invert it. Conf
 
 Use the depth clip as a control/conditioning input, then provide a separately authorized character reference or role card. Depth preserves structure; it does not guarantee identity, facial detail, clothing texture, dialogue, lip sync, or audio. For Wan or MiniMax H3, run a low-resolution short smoke first, then the target specification. Keep depth-quality acceptance separate from generated-video identity and production-quality acceptance.
 
-When the requested object or garment is missing from a structural guide, first search the authorized local asset library and extract a suitable guide; if none exists, offer image generation to create a guide; ask the user only after both routes fail. Do not invent that a missing guide was present.
+When the requested object or garment is missing from a structural guide, first search the authorized local asset library: for a short-drama project, start with `D:\MediaStudio\assets\` and `D:\MediaStudio\AIShortDrama\Projects\<project>\`; then extract a suitable guide. If none exists, offer image generation to create a guide; ask the user only after both routes fail. Do not invent that a missing guide was present.
 
 ## Evidence and delivery
 
