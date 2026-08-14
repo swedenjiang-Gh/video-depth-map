@@ -9,6 +9,10 @@ description: Use when a video must be converted into a grayscale depth-map video
 
 Generate or prepare a time-aligned grayscale depth video from an authorized source. Treat it as a structural control asset, not a final black-and-white grade. Preserve the source video and write the depth result beside the task outputs.
 
+## Output ownership
+
+If the depth map is a stage of a short-drama or video-production project, keep the final grayscale video, optional color preview, metadata, and acceptance record with that project. Otherwise use `VIDEO_DEPTH_MAP_ROOT\<job>\` (default `D:\MediaStudio\VideoDepthMaps\<job>\`). ComfyUI is the current executor, not the owner: its node may first save under `D:\Video\Comfyui\Video\<job>\`, but the accepted deliverables must be moved into the owning project/depth job and must not be retained as a second permanent copy. Never copy the source download into either directory.
+
 ## Route and current machine state
 
 Always enter through `$media-studio-orchestrator`, then route here for the depth stage. This Skill does not start ComfyUI for analysis-only work. For generation, reuse `127.0.0.1:8188` or use the user's visible Desktop according to the global ComfyUI rules.
