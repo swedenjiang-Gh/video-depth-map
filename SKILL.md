@@ -11,7 +11,7 @@ Generate or prepare a time-aligned grayscale depth video from an authorized sour
 
 ## Output ownership
 
-If the depth map is a stage of a short-drama or video-production project, keep the final grayscale video, optional color preview, metadata, and acceptance record with that project. Otherwise use `VIDEO_DEPTH_MAP_ROOT\<job>\` (default `D:\MediaStudio\VideoDepthMaps\<job>\`). ComfyUI is the current executor, not the owner: its node may first save under `D:\Video\Comfyui\Video\<job>\`, but the accepted deliverables must be moved into the owning project/depth job and must not be retained as a second permanent copy. Never copy the source download into either directory.
+If the depth map is a stage of a short-drama or video-production project, keep the final grayscale video, optional color preview, metadata, and acceptance record with that project. Otherwise use `VIDEO_DEPTH_MAP_ROOT\<job>\` (default `D:\MediaStudio\VideoDepthMaps\<job>\`). ComfyUI is the current executor, not the owner: its node may first save under `D:\MediaStudio\Comfyui\Video\<job>\`, but the accepted deliverables must be moved into the owning project/depth job and must not be retained as a second permanent copy. Never copy the source download into either directory.
 
 ## Route and current machine state
 
